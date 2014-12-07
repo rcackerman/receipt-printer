@@ -30,11 +30,8 @@
 #           Current Required (mA): 10
 #           1284 Device ID: MFG:Star;CMD:STAR;MDL:TSP600 (STR_T-U001);CLS:PRINTER;
 
-import epsonprinter
 
-
-printer = epsonprinter.EpsonPrinter(0x0519,0x0001)
-
-printer.print_text("Hello, how's it going?")
-printer.linefeed()
+from escpos import *
+Generic = printer.Usb(0x1a2b,0x1a2b,0,0x81,0x02)
+Generic.text("Hello World\n")
 
