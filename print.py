@@ -42,5 +42,5 @@ response = urllib2.urlopen('https://fax-machine.herokuapp.com/messages')
 data = json.load(response)
 print data
 
-for key, message in data:
+for message in data:
     Generic.text("hi")
