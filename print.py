@@ -50,8 +50,8 @@
 """
 
 import os
-if os.environ['IS_MAC']:
-    IS_MAC = True
+
+IS_MAC = os.getenv('IS_MAC', False)
 
 from datetime import datetime
 if not IS_MAC:
