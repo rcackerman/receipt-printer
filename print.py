@@ -47,10 +47,9 @@ print data
 
 for message in data:
     date = datetime.strptime(message[u'date'][:19], DATETIME_FORMAT)
-    print "Hi"
     Generic.set(size='2x', bold=True, font='b')
     Generic.text(message[u'sender'] + "\n")
-    Generic.text(date + "\n")
+    Generic.text(datetime.strftime(date, '%H:%M') + "\n")
 
     Generic.set(bold=False)
     Generic.text(message[u'body'] + "\n")
