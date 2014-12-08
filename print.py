@@ -97,7 +97,9 @@ def eom():
     if IS_MAC:
         return
 
-    Generic.control("LF")
+    Generic.text("\n\n\n\n\n\n\n")
+
+    # Generic.control("LF")
 
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
