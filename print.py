@@ -114,3 +114,4 @@ for message in data:
     text(message[u'body'])
 
 eom()
+eom()
