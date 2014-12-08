@@ -49,27 +49,62 @@
 :returns:            None
 """
 
+import os
+if os.environ['IS_MAC']:
+    IS_MAC = True
 
 from datetime import datetime
-from escpos import *
+if not IS_MAC:
+    from escpos import *
+
 import urllib2
 import json
 
+
+if not IS_MAC:
+    Generic = printer.Usb(0x519,0x0001)
+    Generic.set(size='2x', bold=True, font='b', underline=None)
+    Generic.text("Hello World\n")
+
+
+def text(text):
+    if IS_MAC:
+        print text
+        return
+
+    Generic.set(bold=False)
+    Generic.text(text + "\n\n")
+
+
+def title(title):
+    if IS_MAC:
+        print "TITLE: " + title
+        return
+
+    Generic.set(size='2x', bold=True, font='b', inverted=True)
+    Generic.text(title + "\n")
+
+def oneline(line):
+    if IS_MAC:
+        print line
+        return
+
+    Generic.text(line + "\n")
+
+
+def lf():
+    if IS_MAC:
+        return
+
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
-Generic = printer.Usb(0x519,0x0001)
-Generic.set(size='2x', bold=True, font='b', underline=None)
-Generic.text("Hello World\n")
 
 response = urllib2.urlopen('https://fax-machine.herokuapp.com/messages')
 data = json.load(response)
 print data
 
 for message in data:
+    title(message[u'sender'])
     date = datetime.strptime(message[u'date'][:19], DATETIME_FORMAT)
-    Generic.set(size='2x', bold=True, font='b', inverted=True)
-    Generic.text(message[u'sender'] + "\n")
-    Generic.text(datetime.strftime(date, '%H:%M') + "\n")
-
-    Generic.set(bold=False)
-    Generic.text(message[u'body'] + "\n\n")
+    oneline(datetime.strftime(date, '%H:%M'))
+    text(message[u'body'])
