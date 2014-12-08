@@ -43,4 +43,5 @@ data = json.load(response)
 print data
 
 for message in data:
-    Generic.text("hi")
+    print "Hi"
+    Generic.text(message.body)
