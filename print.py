@@ -72,7 +72,7 @@ def text(text):
         print text
         return
 
-    Generic.set(bold=False, underline=Null)
+    Generic.set(bold=False, underline=None)
     Generic.text(text + "\n\n")
 
 
