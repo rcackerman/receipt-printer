@@ -72,7 +72,7 @@ def text(text):
         print text
         return
 
-    Generic.set(bold=False)
+    Generic.set(bold=False, underline=Null)
     Generic.text(text + "\n\n")
 
 
@@ -81,7 +81,7 @@ def title(title):
         print "TITLE: " + title
         return
 
-    Generic.set(size='2x', bold=True, font='b', inverted=True)
+    Generic.set(bold=True, underline=1)
     Generic.text(title + "\n")
 
 
@@ -97,7 +97,7 @@ def eom():
     if IS_MAC:
         return
 
-    Generic.text("\n\n\n\n\n\n\n")
+    Generic.text("\n\n\n")
 
     # Generic.control("LF")
 
