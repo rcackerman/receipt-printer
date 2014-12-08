@@ -30,6 +30,26 @@
 #           Current Required (mA): 10
 #           1284 Device ID: MFG:Star;CMD:STAR;MDL:TSP600 (STR_T-U001);CLS:PRINTER;
 
+        """
+        :type bold:         bool
+        :param bold:        set bold font
+        :type underline:    [None, 1, 2]
+        :param underline:   underline text
+        :type size:         ['normal', '2w', '2h' or '2x']
+        :param size:        Text size
+        :type font:         ['a', 'b', 'c']
+        :param font:        Font type
+        :type align:        ['left', 'center', 'right']
+        :param align:       Text position
+        :type inverted:     boolean
+        :param inverted:    White on black text
+        :type color:        [1, 2]
+        :param color:       Text color
+        :rtype:             NoneType
+        :returns:            None
+        """
+
+
 from datetime import datetime
 from escpos import *
 import urllib2
@@ -38,7 +58,7 @@ import json
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 Generic = printer.Usb(0x519,0x0001)
-Generic.set(size='2x', bold=True, font='b')
+Generic.set(size='2x', bold=True, font='b', underline=None)
 Generic.text("Hello World\n")
 
 response = urllib2.urlopen('https://fax-machine.herokuapp.com/messages')
@@ -47,9 +67,9 @@ print data
 
 for message in data:
     date = datetime.strptime(message[u'date'][:19], DATETIME_FORMAT)
-    Generic.set(size='2x', bold=True, font='b')
+    Generic.set(size='2x', bold=True, font='b', inverted=True)
     Generic.text(message[u'sender'] + "\n")
     Generic.text(datetime.strftime(date, '%H:%M') + "\n")
 
     Generic.set(bold=False)
-    Generic.text(message[u'body'] + "\n")
+    Generic.text(message[u'body'] + "\n\n")
