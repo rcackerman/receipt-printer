@@ -46,7 +46,7 @@ data = json.load(response)
 print data
 
 for message in data:
-    date = datetime.strptime(message[u'date'][:20], DATETIME_FORMAT)
+    date = datetime.strptime(message[u'date'][:19], DATETIME_FORMAT)
     print "Hi"
     Generic.set(size='2x', bold=True, font='b', underline=1)
     Generic.text(message[u'sender'] + "\n")
