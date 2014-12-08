@@ -36,8 +36,7 @@ import urllib2
 import json
 
 Generic = printer.Usb(0x519,0x0001)
-Generic.set(size='2x')
-Generic.set(bold=True)
+Generic.set(size='2x', bold=True, font='b')
 Generic.text("Hello World\n")
 
 response = urllib2.urlopen('https://fax-machine.herokuapp.com/messages')
