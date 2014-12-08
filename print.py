@@ -44,4 +44,4 @@ print data
 
 for message in data:
     print "Hi"
-    Generic.text(message.body)
+    Generic.text(message[u'body'])
