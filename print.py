@@ -30,24 +30,24 @@
 #           Current Required (mA): 10
 #           1284 Device ID: MFG:Star;CMD:STAR;MDL:TSP600 (STR_T-U001);CLS:PRINTER;
 
-        """
-        :type bold:         bool
-        :param bold:        set bold font
-        :type underline:    [None, 1, 2]
-        :param underline:   underline text
-        :type size:         ['normal', '2w', '2h' or '2x']
-        :param size:        Text size
-        :type font:         ['a', 'b', 'c']
-        :param font:        Font type
-        :type align:        ['left', 'center', 'right']
-        :param align:       Text position
-        :type inverted:     boolean
-        :param inverted:    White on black text
-        :type color:        [1, 2]
-        :param color:       Text color
-        :rtype:             NoneType
-        :returns:            None
-        """
+"""
+:type bold:         bool
+:param bold:        set bold font
+:type underline:    [None, 1, 2]
+:param underline:   underline text
+:type size:         ['normal', '2w', '2h' or '2x']
+:param size:        Text size
+:type font:         ['a', 'b', 'c']
+:param font:        Font type
+:type align:        ['left', 'center', 'right']
+:param align:       Text position
+:type inverted:     boolean
+:param inverted:    White on black text
+:type color:        [1, 2]
+:param color:       Text color
+:rtype:             NoneType
+:returns:            None
+"""
 
 
 from datetime import datetime
