@@ -30,7 +30,7 @@
 #           Current Required (mA): 10
 #           1284 Device ID: MFG:Star;CMD:STAR;MDL:TSP600 (STR_T-U001);CLS:PRINTER;
 
-
+from datetime import datetime
 from escpos import *
 import urllib2
 import json
