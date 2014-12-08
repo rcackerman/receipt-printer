@@ -38,7 +38,7 @@ import json
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 Generic = printer.Usb(0x519,0x0001)
-Generic.set(size='2x', bold=True, font='b', underline=1)
+Generic.set(size='2x', bold=True, font='b')
 Generic.text("Hello World\n")
 
 response = urllib2.urlopen('https://fax-machine.herokuapp.com/messages')
@@ -48,9 +48,9 @@ print data
 for message in data:
     date = datetime.strptime(message[u'date'][:19], DATETIME_FORMAT)
     print "Hi"
-    Generic.set(size='2x', bold=True, font='b', underline=1)
+    Generic.set(size='2x', bold=True, font='b')
     Generic.text(message[u'sender'] + "\n")
-    Generic.text(message[date] + "\n")
+    Generic.text(date + "\n")
 
     Generic.set(bold=False)
     Generic.text(message[u'body'] + "\n")
