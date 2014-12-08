@@ -34,4 +34,3 @@
 from escpos import *
 Generic = printer.Usb(0x519,0x0001)
 Generic.text("Hello World\n")
-
