@@ -84,6 +84,7 @@ def title(title):
     Generic.set(size='2x', bold=True, font='b', inverted=True)
     Generic.text(title + "\n")
 
+
 def oneline(line):
     if IS_MAC:
         print line
@@ -92,9 +93,12 @@ def oneline(line):
     Generic.text(line + "\n")
 
 
-def lf():
+def eom():
     if IS_MAC:
         return
+
+    Generic.control("LF")
+
 
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
@@ -108,3 +112,5 @@ for message in data:
     date = datetime.strptime(message[u'date'][:19], DATETIME_FORMAT)
     oneline(datetime.strftime(date, '%H:%M'))
     text(message[u'body'])
+
+eom()
