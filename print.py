@@ -32,5 +32,15 @@
 
 
 from escpos import *
+import urllib2
+import json
+
 Generic = printer.Usb(0x519,0x0001)
-Generic.text("Hello World\n")
+# Generic.text("Hello World\n")
+
+response = urllib2.urlopen('https://fax-machine.herokuapp.com/messages')
+data = json.load(response)
+print data
+
+for key, message in data:
+    Generic.text("hi")
