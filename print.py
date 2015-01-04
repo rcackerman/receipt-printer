@@ -127,15 +127,12 @@ def delete_message(message_id):
 
 # Get the messaege ids so we know which messages to get
 response = urllib2.urlopen('http://0.0.0.0:5000/messages')
-data = json.load(response)
-message_ids = [d["message_id"] for d in data]
+messages = json.load(response)
 
 # Print the messages
-for m in message_ids:
-    url = 'http://0.0.0.0:5000/messages/{id}'.format(id = m)
-    message = json.load(urllib2.urlopen(url))
-    print_message(message)
-    delete_message(m)
+for m in messages:
+    print_message(m)
+    delete_message('http://0.0.0.0:5000/messages/{id}'.format(id = m["message_id"]))
 
 
 
