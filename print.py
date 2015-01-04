@@ -50,16 +50,17 @@
 """
 
 import os
-
-IS_MAC = os.getenv('IS_MAC', False)
-
 from datetime import datetime
-if not IS_MAC:
-    from escpos import *
-
 import urllib2
 import json
 
+# We can't print on mac, so we have to fake it for testing.
+IS_MAC = os.getenv('IS_MAC', False)
+if not IS_MAC:
+    from escpos import *
+
+URL = 'https://fax-machine.herokuapp.com/messages'
+DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 if not IS_MAC:
     Generic = printer.Usb(0x519,0x0001)
@@ -67,6 +68,7 @@ if not IS_MAC:
     Generic.text("Hello World\n")
 
 
+# Print a block of text
 def text(text):
     if IS_MAC:
         print text
@@ -76,6 +78,7 @@ def text(text):
     Generic.text(text + "\n\n")
 
 
+# Print a title
 def title(title):
     if IS_MAC:
         print "TITLE: " + title
@@ -85,6 +88,7 @@ def title(title):
     Generic.text(title + "\n")
 
 
+# Print a single line of text
 def oneline(line):
     if IS_MAC:
         print line
@@ -93,27 +97,33 @@ def oneline(line):
     Generic.text(line + "\n")
 
 
+# Print a couple linefeeds so we can easily tear off the paper
 def eom():
     if IS_MAC:
         return
 
     Generic.text("\n\n\n")
 
+    # doesn't work :-(
     # Generic.control("LF")
 
 
-DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
-
-
-response = urllib2.urlopen('https://fax-machine.herokuapp.com/messages')
+# Get the messaeges
+response = urllib2.urlopen(URL)
 data = json.load(response)
 print data
 
+# Print the messages
 for message in data:
     title(message[u'sender'])
     date = datetime.strptime(message[u'date'][:19], DATETIME_FORMAT)
     oneline(datetime.strftime(date, '%H:%M'))
     text(message[u'body'])
+
+# Delete the messages
+opener = urllib2.build_opener(urllib2.HTTPHandler)
+request = urllib2.Request(URL, data='no_data')
+request.get_method = lambda: 'DEL'
 
 eom()
 eom()
