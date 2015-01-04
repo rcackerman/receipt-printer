@@ -54,6 +54,7 @@ from datetime import datetime
 import urllib2
 import json
 
+
 # We can't print on mac, so we have to fake it for testing.
 IS_MAC = os.getenv('IS_MAC', False)
 if not IS_MAC:
@@ -107,23 +108,36 @@ def eom():
     # doesn't work :-(
     # Generic.control("LF")
 
+###
+# Printing
+###
 
-# Get the messaeges
-response = urllib2.urlopen(URL)
-data = json.load(response)
-print data
-
-# Print the messages
-for message in data:
+def print_message(message):
     title(message[u'sender'])
-    date = datetime.strptime(message[u'date'][:19], DATETIME_FORMAT)
-    oneline(datetime.strftime(date, '%H:%M'))
+    message_date = datetime.strptime(message[u'date'][:19], DATETIME_FORMAT)
+    oneline(datetime.strftime(message_date, '%H:%M'))
     text(message[u'body'])
 
-# Delete the messages
-opener = urllib2.build_opener(urllib2.HTTPHandler)
-request = urllib2.Request(URL, data='no_data')
-request.get_method = lambda: 'DEL'
+def delete_message(message_id):
+    url = 'http://0.0.0.0:5000/messages/{id}'.format(id = message_id)
+    opener = urllib2.build_opener(urllib2.HTTPHandler)
+    request = urllib2.Request(url)
+    request.get_method = lambda: 'DELETE'
+    opener.open(request)
+
+# Get the messaege ids so we know which messages to get
+response = urllib2.urlopen('http://0.0.0.0:5000/messages')
+data = json.load(response)
+message_ids = [d["message_id"] for d in data]
+
+# Print the messages
+for m in message_ids:
+    url = 'http://0.0.0.0:5000/messages/{id}'.format(id = m)
+    message = json.load(urllib2.urlopen(url))
+    print_message(message)
+    delete_message(m)
+
+
 
 eom()
 eom()
